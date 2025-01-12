@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # Command untuk menjalankan server dengan Granian
-CMD ["granian", "--app", "main:app", "--workers", "4", "--interface", "asgi"]
+CMD ["granian", "main:app", "--workers", "4", "--interface", "asgi"]
