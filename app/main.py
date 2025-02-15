@@ -3,8 +3,12 @@ from fastapi import FastAPI, Depends, HTTPException, Query
 from sqlmodel import Field, SQLModel, Session, create_engine, select
 from app.utils.database import engine, db_session
 from app.routers.auth import router as router_auth
+from dotenv import load_dotenv, find_dotenv
+import os
 from app.model.hero import Hero
 from app.model.user import User
+
+load_dotenv(find_dotenv())
 
 SessionDep = Annotated[Session, Depends(db_session)]
 
@@ -17,12 +21,13 @@ def on_startup():
 @app.get("/")
 def read_root(session: SessionDep):
     sef = session.exec(select(Hero)).all()
-    return {"Hello": "World"}
+    return {"Hello": "ld" }
 
 @app.get("/elite")
 def read_root(session: SessionDep):
     sef = session.exec(select(User)).all()
-    return {"Hello": "World"}
+    er = os.getenv("DATABASE_URL")
+    return {"Hello": er}
 
 
 @app.get("/items/{item_id}")
