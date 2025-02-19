@@ -1,8 +1,10 @@
 from app.model.user import User
 from sqlalchemy.inspection import inspect
 from sqlalchemy.exc import *
+from sqlmodel import select
 from fastapi import HTTPException
 from app.utils.password_lib import hash_password
+
 class SignupControl:
     def __new__(self, user, session):
         try:
@@ -30,4 +32,18 @@ class SignupControl:
     #         return { "error": False }
     #     except:
     #         return { "error": True }
-        
+
+
+class AuthController:
+    def login(user, session):
+        try:
+            # user_dict = user.dict()
+            query = select(User).where(User.username == user.username)
+            result = session.exec(query)
+            first = result.first()
+            print(first.id, "m")
+            # for x in result:
+            #     print(x, "mmo")
+            return {"access_token": first.username, "token_type": "bearer"}
+        except:
+            return "error"
