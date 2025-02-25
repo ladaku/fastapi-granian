@@ -6,8 +6,6 @@ from app.utils.database import db_session
 from app.controller.auth import SignupControl, AuthController
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 SessionDep = Annotated[Session, Depends(db_session)]
 class UserType(BaseModel):
     name: str

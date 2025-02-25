@@ -1,4 +1,5 @@
 from sqlmodel import SQLModel, Field
+from app.model.user import User
 
 class Hero(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
