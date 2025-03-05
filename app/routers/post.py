@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Body, Depends, UploadFile, File
+from fastapi import APIRouter, Body, Depends, UploadFile, File, Form
 from pydantic import BaseModel
 from sqlmodel import Session
 from app.schema.user import UserType
+from app.schema.post import PostPayload
 from typing import Annotated
 from app.utils.database import db_session
 from app.utils.middleware import get_current_user
@@ -16,6 +17,6 @@ async def list_post(current_user: Annotated[UserType, Depends(get_current_user)]
     return "mekk"
 
 @router.post("/posts")
-async def create_post(current_user: Annotated[UserType, Depends(get_current_user)], session: SessionDep, video: Annotated[UploadFile, File()]):
+async def create_post(current_user: Annotated[UserType, Depends(get_current_user)], session: SessionDep, video: Annotated[UploadFile, File()], thumb: Annotated[UploadFile, File()], title: Annotated[str, Form()], desc: Annotated[str, Form()]):
     print(video.filename)
-    return PostController.create(session, video)
+    return PostController.create(session, video, thumb, title, desc)
