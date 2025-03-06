@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Body, Depends, status
 from pydantic import BaseModel
-from sqlmodel import Session
+from sqlmodel import Session, select
 from typing import Annotated
 from nanoid import generate as generate_id
 from app.model.post import Post
 from app.utils.database import db_session
 from sqlalchemy.exc import *
+from sqlalchemy import func
 import os
 import shutil
 UPLOAD_DIR = "uploads"  # Ensure this directory exists
@@ -14,8 +15,11 @@ class PostController:
     def __init__(self):
         self.current_user = None
 
-    async def list():
-        return "guguk"
+    def list(session, page, size):
+        total_count = session.exec(select(func.count()).select_from(Post)).one()
+        results = session.exec(select(Post).offset(page).limit(size)).all()
+
+        return {"code": status.HTTP_200_OK, "status": True, "message": "created Post", "data": {"data": results, "total": total_count}}
     
     def create(session, video, thumb, title, desc):
         try:
