@@ -1,5 +1,6 @@
 from typing import Union, Annotated
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import Field, SQLModel, Session, create_engine, select
 from app.utils.database import engine, db_session
@@ -19,6 +20,8 @@ SessionDep = Annotated[Session, Depends(db_session)]
 
 app = FastAPI()
 
+
+app.mount("/static", StaticFiles(directory="uploads"), name="static")
 @app.on_event("startup")
 def on_startup():
     SQLModel.metadata.create_all(engine)
