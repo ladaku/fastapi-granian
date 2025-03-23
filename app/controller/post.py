@@ -38,17 +38,20 @@ class PostController:
 
             payload_post = Post(title=title, desc=desc, slug=generate_id(size=10), thumb_url=thumb_filename, video_url=video_filename)
             session.add(payload_post)
+            session.commit()
+            session.refresh(payload_post)
 
             tags = tags[0].split(',')
             payload_tags = []
+            print(type(payload_post.id), payload_post, "erick")
             for x in tags:
                 if isinstance(int(x), (int, float, complex)):
                     payload_tags.append(
-                        PostTagLink( post_id=payload_post.id, tag_id=int(x))
+                        PostTagLink(post_id=payload_post.id, tag_id=int(x))
                     )
             session.add_all(payload_tags)
             session.commit()
-            session.refresh(payload_post)
+            #session.refresh(payload_tags)
             return {"code": status.HTTP_201_CREATED, "status": True, "message": "created Post", "data": payload_post.id}
         except IntegrityError as e:
             session.rollback()
@@ -58,7 +61,6 @@ class PostController:
 
     def remove(session, id):
         try:
-            print(id, "sodaa")
             query = select(Post).where(Post.id == id)
             result = session.exec(query)
             post = result.one()
