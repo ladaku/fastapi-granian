@@ -19,7 +19,7 @@ class PostController:
         total_count = session.exec(select(func.count()).select_from(Post)).one()
         results = session.exec(select(Post).offset(page).limit(size)).all()
 
-        return {"code": status.HTTP_200_OK, "status": True, "message": "created Post", "data": {"data": results, "total": total_count}}
+        return {"code": status.HTTP_200_OK, "status": True, "message": "success getting Post", "data": {"data": results, "total": total_count}}
     
     def create(session, video, thumb, title, desc, tags):
         try:
