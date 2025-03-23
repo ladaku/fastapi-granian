@@ -13,7 +13,7 @@ SessionDep = Annotated[Session, Depends(db_session)]
 router = APIRouter(tags=["post"])
 
 @router.get("/posts/")
-async def list_post(current_user: Annotated[UserType, Depends(get_current_user)], session: SessionDep, page: int = 0, size: int = Query(default=100, le=100)):
+async def list_post(session: SessionDep, page: int = 0, size: int = Query(default=100, le=100)):
     return PostController.list(session, page, size)
 
 @router.post("/posts")
