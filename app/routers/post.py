@@ -23,3 +23,7 @@ async def create_post(current_user: Annotated[UserType, Depends(get_current_user
 @router.delete("/posts/{id}")
 async def delete_post(current_user: Annotated[UserType, Depends(get_current_user)], session: SessionDep, id):
     return PostController.remove(session, id)
+
+@router.get("/posts/{id}")
+async def detail_post(current_user: Annotated[UserType, Depends(get_current_user)], session: SessionDep, id):
+    return PostController.detail(session, id)

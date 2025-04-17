@@ -77,6 +77,29 @@ class PostController:
             
             session.delete(post)
             session.commit()
-            return {"code": status.HTTP_200_OK, "status": True, "message": "success remove Post", "data": post.id}
+            return {"code": status.HTTP_200_OK, "status": True, "message": "Success remove Post", "data": post.id}
         except IntegrityError:
-            return "kuntuls"
+            return {"code": status.HTTP_400_BAD_REQUEST, "status": False, "message": "Failed remove Post", "data": None}
+        
+    def detail(session, id):
+        try:
+            query = select(Post).where(Post.id == id)
+            result = session.exec(query)
+            post = result.one()
+            
+            # video_file_path = os.path.join(UPLOAD_DIR, post.video_url)
+            # thumb_file_path = os.path.join(UPLOAD_DIR, post.thumb_url)
+
+            # if os.path.exists(video_file_path):
+            #     print("vid url ada")
+            #     os.remove(video_file_path)
+            # if os.path.exists(thumb_file_path):
+            #     print("thumb url ada")
+            #     os.remove(thumb_file_path)
+            
+            # session.delete(post)
+            # session.commit()
+            return {"code": status.HTTP_200_OK, "status": True, "message": "Success remove Post", "data": post}
+        except IntegrityError:
+            return {"code": status.HTTP_400_BAD_REQUEST, "status": False, "message": "Failed remove Post", "data": None}
+        
