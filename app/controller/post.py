@@ -81,9 +81,9 @@ class PostController:
         except IntegrityError:
             return {"code": status.HTTP_400_BAD_REQUEST, "status": False, "message": "Failed remove Post", "data": None}
         
-    def detail(session, id):
+    def detail(session, slug):
         try:
-            query = select(Post).where(Post.id == id)
+            query = select(Post).where(Post.slug == slug)
             result = session.exec(query)
             post = result.one()
             
