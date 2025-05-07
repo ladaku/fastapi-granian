@@ -2,6 +2,7 @@ from typing import Union, Annotated
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
 from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, SQLModel, Session, create_engine, select
 from app.utils.database import engine, db_session
 from app.routers.auth import router as router_auth
@@ -20,6 +21,14 @@ SessionDep = Annotated[Session, Depends(db_session)]
 
 app = FastAPI()
 
+# Allow all origins (not recommended for production)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 app.mount("/static", StaticFiles(directory="uploads"), name="static")
 @app.on_event("startup")
