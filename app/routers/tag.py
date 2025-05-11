@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Body, Depends, Query
 from pydantic import BaseModel
 from sqlmodel import Session
 from app.schema.user import UserType
@@ -20,3 +20,7 @@ async def list_tag(current_user: Annotated[UserType, Depends(get_current_user)],
 @router.post("/tag")
 async def add_tag(current_user: Annotated[UserType, Depends(get_current_user)], tag: Annotated[Tag, Body(embed=True)],session: SessionDep):
     return TagContoller.create(session, tag)
+
+@router.get("/tag/")
+async def list_tag(session: SessionDep, page: int = 0, size: int = Query(default=100, le=100)):
+    return TagContoller.tag_pagination(session, page, size)
