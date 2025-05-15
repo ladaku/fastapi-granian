@@ -9,6 +9,9 @@ from app.utils.database import db_session
 from app.utils.middleware import get_current_user
 from app.controller.tag import TagContoller
 
+class TagPayload(BaseModel):
+    name: str
+
 SessionDep = Annotated[Session, Depends(db_session)]
 
 router = APIRouter(tags=["tag"])
@@ -18,7 +21,7 @@ async def list_tag(current_user: Annotated[UserType, Depends(get_current_user)],
     return TagContoller.list(session)
 
 @router.post("/tag")
-async def add_tag(current_user: Annotated[UserType, Depends(get_current_user)], tag: Annotated[Tag, Body(embed=True)],session: SessionDep):
+async def add_tag(current_user: Annotated[UserType, Depends(get_current_user)], tag: Annotated[TagPayload, Body(embed=True)], session: SessionDep):
     return TagContoller.create(session, tag)
 
 @router.get("/tag/")
