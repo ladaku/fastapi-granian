@@ -20,9 +20,10 @@ class TagContoller:
     
     def create(session, tag):
         try:
-            session.add(tag)
+            new = Tag(name=tag.name)
+            session.add(new)
             session.commit()
-            session.refresh(tag)
+            session.refresh(new)
             return {"code": status.HTTP_201_CREATED, "status": True, "message": "Success created tag", "data": None}
         except IntegrityError:
             return {"code": status.HTTP_400_BAD_REQUEST, "status": False, "message": "Failed created tag", "data": None}
