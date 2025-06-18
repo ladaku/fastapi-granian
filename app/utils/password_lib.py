@@ -1,10 +1,9 @@
-from passlib.hash import bcrypt
-
+import bcrypt
 
 
 def hash_password(password: str) -> str:
-    return bcrypt.hash(password)
+    return bcrypt.hashpw(password, bcrypt.gensalt())
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bcrypt.verify(plain_password, hashed_password)
+    return bcrypt.checkpw(plain_password, hashed_password)
