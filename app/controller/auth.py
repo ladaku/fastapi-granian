@@ -95,7 +95,7 @@ class AuthController:
                     headers={"WWW-Authenticate": "Bearer"},
                 )
             verif_pass = verify_password(user.password, first.password)
-            print(verif_pass, 'celeng token')
+            print(verif_pass, user.password, first.password, 'celeng token')
             if not verif_pass:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
