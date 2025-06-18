@@ -16,7 +16,7 @@ class SignupControl:
         try:
             print(user)
             user_dict = user.dict()
-            hash_pass = hash_password(user_dict["username"])
+            hash_pass = hash_password(user_dict["password"])
             user_regist = User(username=user_dict["username"], name=user_dict["name"], password=hash_pass, active=user_dict["active"])
             
             session.add(user_regist)
