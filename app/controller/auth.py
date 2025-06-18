@@ -63,12 +63,12 @@ class AuthController:
                 )
             verif_pass = verify_password(user.password, first.password)
             print(verif_pass, "celeng")
-            if not verif_pass:
-                raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED,
-                    detail={ "status": False, "message": "failed Password", "data": None, "error": "Failed password" },
-                    headers={"WWW-Authenticate": "Bearer"},
-                )
+            # if not verif_pass:
+            #     raise HTTPException(
+            #         status_code=status.HTTP_401_UNAUTHORIZED,
+            #         detail={ "status": False, "message": "failed Password", "data": None, "error": "Failed password" },
+            #         headers={"WWW-Authenticate": "Bearer"},
+            #     )
             
             access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
             access_token = create_access_token(
