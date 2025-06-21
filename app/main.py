@@ -30,7 +30,9 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-app.mount("/static", StaticFiles(directory="uploads"), name="static")
+FASTAPI_ENVIRONTMENT = os.getenv("FASTAPI_ENVIRONTMENT")
+static_directory = "/var/www/malware-bkp" if FASTAPI_ENVIRONTMENT == "production" else "uploads"
+app.mount("/static", StaticFiles(directory=static_directory), name="static")
 @app.on_event("startup")
 def on_startup():
     SQLModel.metadata.create_all(engine)
@@ -39,7 +41,7 @@ def on_startup():
 def read_root(session: SessionDep):
     sef = session.exec(select(Hero)).all()
    # post = session.exec(select())
-    return {"Hello": "ld" }
+    return {"Hello": "World" }
 
 @app.post("/token")
 async def signin(user: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep):

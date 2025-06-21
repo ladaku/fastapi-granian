@@ -9,7 +9,11 @@ from sqlalchemy.exc import *
 from sqlalchemy import func
 import os
 import shutil
-UPLOAD_DIR = "uploads"  # Ensure this directory exists
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
+FASTAPI_ENVIRONTMENT = os.getenv("FASTAPI_ENVIRONTMENT")
+UPLOAD_DIR = "/var/www/malware-bkp" if FASTAPI_ENVIRONTMENT == "production" else "uploads"  # Ensure this directory exists
 
 class PostController:
     def __init__(self):
