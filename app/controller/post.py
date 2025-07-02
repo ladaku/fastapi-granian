@@ -21,7 +21,7 @@ class PostController:
 
     def list(session, page, size):
         total_count = session.exec(select(func.count()).select_from(Post)).one()
-        results = session.exec(select(Post).offset(page).limit(size)).all()
+        results = session.exec(select(Post).offset(page).limit(size).order_by(Post.id.desc())).all()
 
         return {"code": status.HTTP_200_OK, "status": True, "message": "success getting Post", "data": {"data": results, "total": total_count}}
     
